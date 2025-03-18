@@ -71,9 +71,9 @@ label {
 }
 
 .container {
-    height: 70vh;
+    height: 62vh;
     width: 100vw;
-    margin-top: 18vh;
+    /* margin-top: 18vh; */
     display: flex;
     align-items: center;
     justify-content: center;
