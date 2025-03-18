@@ -1,0 +1,114 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.home {
+    position: relative;
+    margin-top: 15%;
+    width: 100vw;
+    /* background-color: aqua; */
+}
+
+li {
+    padding: .5em;
+}
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-style: italic;
+}
+.columns {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    justify-content: flex-start;
+}
+
+.rows {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    background-color: lightgray;
+    border-radius: 10px;
+}
+
+#finSub {
+    position: absolute;
+    opacity: 0;
+
+}
+
+#convSub {
+    position: absolute;
+    opacity: 0;
+}
+
+#conversions:hover #convSub {
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+
+#finance:hover #finSub {
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+
+input {
+    font-size: 1.5em;
+    float: right;
+    width: 50%;
+}
+
+label {
+    font-family: Verdana;
+    font-size: 1.5em;
+    font-weight: lighter;
+}
+
+.container {
+    height: 30vh;
+    width: 100vw;
+    margin-top: 10vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* opacity: 0; */
+    transition: opacity .5s ease;
+}
+
+.section {
+    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 2em;
+    padding: 1em;
+    border-radius: 10px;
+    height: auto;
+    margin: 1em;
+    /* width: 50%; */
+}
+
+.show {
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+.comps {
+    padding:  1em;
+    font-size: 1em;
+}
+
+.comps>a:active {
+    background-color: gray;
+}
+
+.comps:hover {
+    background-color: gray;
+    border-radius: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
