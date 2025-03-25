@@ -13,34 +13,40 @@
 
 <body onload="displayHome()">
     <nav class="nav">
-        <ul class="columns">
-            <li onclick="displayHome()" id="home">Home</li>
-            <li id="conversions">Conversions
-                <ul id="convSub" class="rows">
-                    <li class="comps" onclick="displayTemperature()">Temp</li>
-                    <li class="comps" onclick="displayPressure()">Pressure</li>
-                    <li class="comps" onclick="displayCloudBase()">CloudBase</li>
+        <div class="menuBtn parent">
+            <span>Menu</span>
+        <ul class="subMenu">
+            <li class="items" onclick="displayHome()">Home</li>
+            <li id="conversions" class="items parent" >Conversions
+                <ul id="convSub" class="subMenu">
+                    
+                    <li class="items" onclick="displayTemperature()">Temp</li>
+                    <li class="items" onclick="displayPressure()">Pressure</li>
+                    <li class="items" onclick="displayCloudBase()">CloudBase</li>
                 </ul>
             </li>
-            <li id="finance">Finance
-                <ul id="finSub" class="rows">
-                    <li class="comps" onclick="displayFutureValue()">FutureValue</li>
-                    <li class="comps" onclick="displayCompoundInterest()">CompoundInterest</li>
+            <li id="finance" class="items parent" >Finance
+                <ul id="finSub" class="subMenu">
+                    <li class="items" onclick="displayFutureValue()">FutureValue</li>
+                    <li class="items" onclick="displayCompoundInterest()">CompoundInterest</li>
+                    <li class="items" onclick="displayMortgage()">Mortgage</li>
                 </ul>
             </li>
 
         </ul>
+    </div>
     </nav>
 
     <main id="main" class="container"></main>
 
-    <script src="calcs.js"></script>
+    <!-- <script src="calcs.js"></script> -->
     <script src="./components/compoundInterest.js"></script>
     <script src="./components/pressure.js"></script>
     <script src="./components/futureValue.js"></script>
     <script src="./components/temperature.js"></script>
     <script src="./components/cloudBase.js"></script>
     <script src="./components/home.js"></script>
+    <script src="./components/mortgage.js"></script>
 
 </body>
 

@@ -9,9 +9,11 @@
     position: relative;
     margin-top: 15%;
     width: 100vw;
-    /* background-color: aqua; */
 }
 
+nav {
+    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
+}
 li {
     padding: .5em;
 }
@@ -22,40 +24,48 @@ li {
     font-size: 3em;
     font-style: italic;
 }
-.columns {
+.menu {
     display: flex;
     flex-direction: row;
     list-style-type: none;
     justify-content: flex-start;
 }
 
-.rows {
+.menuBtn {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    height: 1em;
+    padding: 1em;
+    width: 5em;
+    cursor: pointer;
+}
+
+.items {
+    position: relative;
+    display: flex;
+    flex-direction: row;
     list-style-type: none;
-    background-color: lightgray;
-    border-radius: 10px;
+    /* background-color: lightgray; */
+    cursor: pointer;
 }
 
-#finSub {
+.subMenu {
+    top: 2em;
+    display: none;
+    flex-direction: column;
     position: absolute;
-    opacity: 0;
-
+    left: 0;
+    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
+    box-shadow: 2px 2px 10px grey;
+    /* border-radius: 0 10px 10px; */
 }
 
-#convSub {
-    position: absolute;
-    opacity: 0;
+.items .subMenu {
+    top: 0;
+    left: 100%;
 }
-
-#conversions:hover #convSub {
-    opacity: 1;
-    transition: opacity .5s ease;
-}
-
-#finance:hover #finSub {
-    opacity: 1;
-    transition: opacity .5s ease;
+.parent:hover > .subMenu {
+    display: flex;
 }
 
 input {
@@ -96,19 +106,18 @@ label {
 
 .show {
     opacity: 1;
-    transition: opacity .5s ease;
+    /* transition: opacity .5s ease; */
 }
 .comps {
     padding:  1em;
     font-size: 1em;
 }
 
-.comps>a:active {
+.items>a:active {
     background-color: gray;
 }
 
-.comps:hover {
-    background-color: gray;
-    border-radius: 10px;
+.items:hover {
+    background-color: lightgray;
     transition: background-color 0.3s ease-in-out;
 }

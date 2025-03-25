@@ -60,6 +60,7 @@ cont.addEventListener("input", function () {
 
 });
 
+
 // Compound Interest
 
 // const cprin = document.getElementById("cprin");
