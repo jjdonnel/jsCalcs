@@ -12,34 +12,38 @@
 </head>
 
 <body onload="displayHome()">
-    <nav class="nav">
-        <div class="menuBtn parent">
-            <span>Menu</span>
-        <ul class="subMenu">
-            <li class="items" onclick="displayHome()">Home</li>
-            <li id="conversions" class="items parent" >Conversions
-                <ul id="convSub" class="subMenu">
-                    
-                    <li class="items" onclick="displayTemperature()">Temp</li>
-                    <li class="items" onclick="displayPressure()">Pressure</li>
-                    <li class="items" onclick="displayCloudBase()">CloudBase</li>
-                </ul>
-            </li>
-            <li id="finance" class="items parent" >Finance
-                <ul id="finSub" class="subMenu">
-                    <li class="items" onclick="displayFutureValue()">FutureValue</li>
-                    <li class="items" onclick="displayCompoundInterest()">CompoundInterest</li>
-                    <li class="items" onclick="displayMortgage()">Mortgage</li>
-                </ul>
-            </li>
+    <nav class="nav"></nav>
+        <div class="menu">
+            <input type="checkbox" class="menuInput" id="menu"/>
+            <label for="menu">&#9776;</label>
+            <ul class="subMenu">
+                <li class="items subItems" onclick="displayHome()">Home</li>
+                <li id="conversions" class="items">
+                    <input type="checkbox" class="menuInput" id="A"/>
+                    <label for="A">Conversions</label>
+                    <ul id="convSub" class="subMenu">
+                        <li class="subItems" onclick="displayTemperature()">Temp</li>
+                        <li class="subItems" onclick="displayPressure()">Pressure</li>
+                        <li class="subItems" onclick="displayCloudBase()">CloudBase</li>
+                    </ul>
+                </li>
+                <li id="finance" class="items">
+                    <input type="checkbox" class="menuInput" id="B"/>
+                    <label for="B">Finance</label>
+                    <ul id="finSub" class="subMenu">
+                        <li class="subItems" onclick="displayFutureValue()">FutureValue</li>
+                        <li class="subItems" onclick="displayCompoundInterest()">CompoundInterest</li>
+                        <li class="subItems" onclick="displayMortgage()">Mortgage</li>
+                    </ul>
+                </li>
 
-        </ul>
-    </div>
-    </nav>
+            </ul>
+        </div>
+    <!-- </nav> -->
 
     <main id="main" class="container"></main>
 
-    <!-- <script src="calcs.js"></script> -->
+    <script src="calcs.js"></script>
     <script src="./components/compoundInterest.js"></script>
     <script src="./components/pressure.js"></script>
     <script src="./components/futureValue.js"></script>

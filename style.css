@@ -12,10 +12,20 @@
 }
 
 nav {
+    z-index: 10;
+    height: 1.5em;
     background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
 }
 li {
     padding: .5em;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+.menuInput:checked ~ .subMenu {
+    display: block;
 }
 .title {
     display: flex;
@@ -25,6 +35,8 @@ li {
     font-style: italic;
 }
 .menu {
+    position: absolute;
+    top: 0;
     display: flex;
     flex-direction: row;
     list-style-type: none;
@@ -40,7 +52,7 @@ li {
     cursor: pointer;
 }
 
-.items {
+.items, .subItems {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -50,7 +62,7 @@ li {
 }
 
 .subMenu {
-    top: 2em;
+    top: 1.5em;
     display: none;
     flex-direction: column;
     position: absolute;
@@ -74,7 +86,7 @@ input {
     width: 50%;
 }
 
-label {
+.section label {
     font-family: Verdana;
     font-size: 1.5em;
     font-weight: lighter;
@@ -105,7 +117,8 @@ label {
 }
 
 .show {
-    opacity: 1;
+    display: flex;
+    /* opacity: 1; */
     /* transition: opacity .5s ease; */
 }
 .comps {

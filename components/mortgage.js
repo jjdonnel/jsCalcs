@@ -1,5 +1,7 @@
 
 function displayMortgage() {
+    // const menu = document.getElementsByClassName('subMenu');
+    // menu.classList.remove('show')
     const main = document.getElementById('main');
     main.classList.remove('show');
     main.innerHTML =
@@ -26,7 +28,7 @@ function displayMortgage() {
         main.classList.add('show');
     }
     setTimeout(show, 200);
-
+// closeMenus();
 
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -70,11 +72,11 @@ function displayMortgage() {
     mresu.addEventListener("input", function () {
         let m = Number(mresu.value);
         let r = Number(mrate.value || 1) / 1200;
-        let t = Number(mtime.value) * 12;
+        let t = Number(mtime.value || 1) * 12;
         mprin.value = parseInt(
             m * (1 - Math.pow(1 + r, -t)) / r
         );
-    })
+    });
 };
 
 
@@ -86,11 +88,12 @@ function displayMortgage() {
 
 
 
-// let p = Number(this.state.principal);
-//   let r = Number(this.state.rate / 1200);
-//   let t = Number(this.state.time);
+
+// let p = (this.state.principal);
+//   let r = (this.state.rate / 1200);
+//   let t = (this.state.time);
 //   console.log(this.state.result);
 
-// //   let tot = Number((p * r * Math.pow(1 + r,(t* 12)))/(Math.pow(1 + r,(t*12)) - 1)).toLocaleString();
+// //   let tot = ((p * r * Math.pow(1 + r,(t* 12)))/(Math.pow(1 + r,(t*12)) - 1)).toLocaleString();
 
-//   let tot = Number((p * r * ((1 + r) ** (t*12))) / (((1 + r) ** (t*12)) - 1)).toLocaleString();
+//   let tot = ((p * r * ((1 + r) ** (t*12))) / (((1 + r) ** (t*12)) - 1)).toLocaleString();
