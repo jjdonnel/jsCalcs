@@ -20,8 +20,8 @@ function closeMenus() {
     mainMenu.classList.remove('show');
 };
 
-// const menu = document.querySelectorAll('.menuInput'); // Select the main menu
-const items = document.querySelectorAll('.subItems'); // Select all submenu items
+const menu = document.querySelectorAll('.menuInput'); // Select the main menu
+const items = document.querySelectorAll('.items'); // Select all submenu items
 
 items.forEach(item => {
   item.addEventListener('click', () => {
