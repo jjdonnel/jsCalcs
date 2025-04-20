@@ -8,8 +8,8 @@
 .navbar {
     /* z-index: 10; */
     height: 2em;
-    background-color: rgb(100, 220, 220);
-    /* background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255)); */
+    /* background-color: rgb(100, 220, 220); */
+    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
 }
 
 .label {
@@ -55,8 +55,8 @@ span {
     opacity: 0;
     /* display: none; */
     /* top: 0; */
-    background-color: rgb(100, 220, 220);
-    /* background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255)); */
+    /* background-color: rgb(100, 220, 220); */
+    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
     /* z-index: 10; */
     /* border-radius: 10px 10px; */
     flex-direction: row;
@@ -115,7 +115,7 @@ input {
     border-radius: 10px;
     height: auto;
     margin: 1em;
-    width: 60%;
+    width: 75%;
 }
 
 .show {
