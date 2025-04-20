@@ -5,13 +5,16 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.nav {
+.navbar {
     /* z-index: 10; */
     height: 2em;
     background-color: rgb(100, 220, 220);
     /* background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255)); */
 }
 
+.label {
+    height: 2em;
+}
 ul {
     list-style: none;
 }
@@ -28,8 +31,14 @@ span {
     font-size: 1.4em;
 }
 
-.menuInput:checked~.subMenu {
+.menuInput:checked ~ .subMenu {
     display: block;
+}
+ 
+.menuOpen:checked ~ .menu {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.3s ease;
 }
 
 .title {
@@ -41,27 +50,36 @@ span {
 }
 
 .menu {
-    /* width: 100%; */
+    width: 10em;
     position: absolute;
-    top: 0;
+    opacity: 0;
+    /* display: none; */
+    /* top: 0; */
     background-color: rgb(100, 220, 220);
     /* background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255)); */
-    z-index: 10;
-    border-radius: 10px 10px;
+    /* z-index: 10; */
+    /* border-radius: 10px 10px; */
     flex-direction: row;
     list-style-type: none;
     justify-content: flex-start;
+    transform: translateX(-100%);
+    transition: all 0.3s ease;
 }
 
 .subMenu {
-    width: 10em;
+    /* width: 10em; */
     display: none;
     left: 1em;
     padding-top: .5em;
+    border-radius: 10px 10px; 
 }
 
-.parent:hover>.subMenu {
-    display: flex;
+.label:hover > .subMenu {
+    display: block;
+}
+
+.label:hover > .menu {
+    display: block;
 }
 
 input {
@@ -109,7 +127,7 @@ input {
     font-size: 1em;
 }
 
-.subItems:hover {
+.items:hover {
     background-color: lightgray;
     transition: background-color 0.3s ease-in-out;
 }

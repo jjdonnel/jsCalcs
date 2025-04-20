@@ -12,16 +12,22 @@
 </head>
 
 <body onload="displayHome()">
-    <div class="nav"></div>
-    <div class="menu">
-        <input type="checkbox" class="menuInput" id="menu" />
-        <label for="menu"><span>&#9776;</span></label>
+    <!-- <div id="nav" class="nav">
+        <span id="open">&#9776;</span>
+    </div> -->
+    <nav class="navbar">
+        <input type="checkbox" class="menuOpen" id="top" />
+        <label for="top" id="icon" class="label">
+            <span>&#9776;</span>
+        <!-- Menu -->
+        </label>
 
-        <ul class="subMenu">
+        <ul class="menu">
             <li class="items" onclick="displayHome()">Home</li>
             <li id="conversions">
                 <input type="checkbox" class="menuInput" id="A" />
                 <label for="A" class="label">Conversions</label>
+                <span class="arrow">&#9662;</span>
                 <ul id="convSub" class="subMenu">
                     <li class="items" onclick="displayTemperature()">Temp</li>
                     <li class="items" onclick="displayPressure()">Pressure</li>
@@ -31,6 +37,7 @@
             <li id="finance">
                 <input type="checkbox" class="menuInput" id="B" />
                 <label for="B" class="label">Finance</label>
+                <span class="arrow">&#9662;</span>
                 <ul id="finSub" class="subMenu">
                     <li class="items" onclick="displayFutureValue()">FutureValue</li>
                     <li class="items" onclick="displayCompoundInterest()">CompInt</li>
@@ -39,7 +46,7 @@
             </li>
 
         </ul>
-    </div>
+    </nav>
     <!-- </nav> -->
 
     <main id="main" class="container"></main>

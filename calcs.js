@@ -35,3 +35,16 @@ items.forEach(item => {
   });
 });
 
+const menuBtn = document.getElementById('open');
+const mainMenu = document.getElementById('mainMenu');
+
+let dropdown = document.getElementById('nav');
+
+dropdown.addEventListener('click', (e) => {
+  if (mainMenu.display = 'none') {
+    mainMenu.display = 'block';
+  } else {
+    mainMenu.display = 'none';  
+  }
+})
+ 
