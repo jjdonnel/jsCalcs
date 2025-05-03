@@ -21,7 +21,7 @@ function displayCloudBase() {
     function show() {
         main.classList.add('show');
     }
-    setTimeout(show, 200);
+    show();
 
     const temp = document.getElementById("temp");
     const dew = document.getElementById("dew");

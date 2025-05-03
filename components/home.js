@@ -1,6 +1,6 @@
 function displayHome() {
     const main = document.getElementById('main');
-    main.classList.remove('show');
+    // main.classList.remove('show');
     main.innerHTML =
         `<div id="home" class="home">
           <p class="title">Conversions, Etcetera...</p>
@@ -9,5 +9,5 @@ function displayHome() {
     function show() {
         main.classList.add('show');
     }
-    setTimeout(show, 200);
+    show();
 };

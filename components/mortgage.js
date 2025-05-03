@@ -27,7 +27,8 @@ function displayMortgage() {
     function show() {
         main.classList.add('show');
     }
-    setTimeout(show, 200);
+    show();
+    
 // closeMenus();
 
     const formatter = new Intl.NumberFormat('en-US', {

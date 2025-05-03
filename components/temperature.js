@@ -21,7 +21,7 @@ function displayTemperature() {
         main.classList.add('show');
     };
 
-    setTimeout(show, 2000);
+    show();
 
     let celsius = document.getElementById('celsius');
     let fahrenheit = document.getElementById('fahrenheit');

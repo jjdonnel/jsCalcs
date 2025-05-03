@@ -95,7 +95,7 @@ span {
 input {
     font-size: 1.5em;
     float: right;
-    width: 50%;
+    width: 100%;
 }
 
 .section label {
@@ -111,7 +111,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* opacity: 0; */
+    opacity: 0;
     transition: opacity .5s ease;
 }
 
@@ -125,11 +125,13 @@ input {
     border-radius: 10px;
     height: auto;
     margin: 1em;
-    width: 75%;
+    width: 50%;
 }
 
 .show {
     display: flex;
+    opacity: 1;
+    transition: opacity 1s ease;
 }
 
 .comps {

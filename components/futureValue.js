@@ -28,7 +28,8 @@ function displayFutureValue() {
     function show() {
         main.classList.add('show');
     }
-    setTimeout(show, 200);
+    show();
+    
     const prin = document.getElementById("prin");
     const rate = document.getElementById("rate");
     const time = document.getElementById("time");

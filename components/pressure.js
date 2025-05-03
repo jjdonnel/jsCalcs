@@ -23,7 +23,7 @@ function displayPressure() {
         main.classList.add('show');
     }
 
-setTimeout(show, 200);
+show();
 
 let mb = document.getElementById('mb');
 let hg = document.getElementById('hg');

@@ -1,5 +1,5 @@
 function openMain() {
-    let primary = document.getElementById('primary');
+    let primary = document.getElementById('main');
     primary.classList.toggle('show');
 };
 
