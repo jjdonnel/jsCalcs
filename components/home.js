@@ -3,7 +3,7 @@ function displayHome() {
     // main.classList.remove('show');
     main.innerHTML =
         `<div id="home" class="home">
-          <p class="title">Conversions, Etcetera...</p>
+          <p class="title">Conversions</p>
         </div>`
 
     function show() {

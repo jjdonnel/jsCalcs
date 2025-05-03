@@ -3,6 +3,14 @@ function openMain() {
     primary.classList.toggle('show');
 };
 
+function open() {
+  let btn = document.getElementById('icon');
+  let top = document.getElementById('top');
+  if (top) {
+    top.checked = !top.checked;
+  }
+}
+
 function openConv() {
     let convSub = document.getElementById('convSub');
     convSub.classList.toggle('show');

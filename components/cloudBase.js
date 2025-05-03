@@ -1,6 +1,6 @@
 function displayCloudBase() {
     const main = document.getElementById('main');
-    main.classList.remove('show');
+    // main.classList.remove('show');
     main.innerHTML =
         ` <div id="cloudBase" class="section">
             <div>
@@ -18,10 +18,10 @@ function displayCloudBase() {
             
         </div>`
 
-    function show() {
-        main.classList.add('show');
-    }
-    show();
+    // function show() {
+    //     main.classList.add('show');
+    // }
+    // show();
 
     const temp = document.getElementById("temp");
     const dew = document.getElementById("dew");
