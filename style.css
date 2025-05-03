@@ -7,7 +7,7 @@
 
 body {
     height: 100vh;
-    background-image: linear-gradient(to bottom right, rgba(50,200,100), rgba(100,100,200));
+    background-image: linear-gradient(to bottom right, rgba(50,150,150, 0.5), rgba(20,120,200, 0.5));
     background-repeat: none;
 }
 .navbar {
@@ -36,6 +36,10 @@ span {
     font-size: 1.4em;
 }
 
+.arrow {
+    transform: rotate(180deg);
+}
+
 .menuInput:checked ~ .subMenu {
     /* display: block; */
     height: 120px;
@@ -43,7 +47,9 @@ span {
     transition:  all 0.5s ease;
     /* transition: opacity 0.4s ease; */
 }
- 
+.menuInput:checked ~ span {
+    transform: rotate(180deg);
+}
 .menuOpen:checked ~ .menu {
     opacity: 1;
     transform: translateX(0);
