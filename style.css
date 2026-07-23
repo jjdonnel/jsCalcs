@@ -5,21 +5,29 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+:root {
+    /* Baseline accent color that components can override dynamically */
+    --accent-color: rgba(20, 120, 200, 0.5);
+}
+
 body {
     height: 100vh;
-    background-image: linear-gradient(to bottom right, rgba(50,150,150, 0.5), rgba(20,120,200, 0.5));
-    background-repeat: none;
+    background-image: linear-gradient(to bottom right, rgba(50, 150, 150, 0.5), var(--accent-color));
+    background-repeat: no-repeat;
 }
+
+/* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
 .navbar {
-    /* z-index: 10; */
-    height: 2em;
-    /* background-color: rgb(100, 220, 220); */
-    /* background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255)); */
+    height: auto;
+    padding: 0.5em 0.8em; /* Subtle top/left padding to pull off the rounded corner */
+    display: flex;
+    align-items: center;
 }
 
 .label {
     height: 2em;
 }
+
 ul {
     list-style: none;
 }
@@ -34,22 +42,25 @@ input[type="checkbox"] {
 
 span {
     font-size: 1.4em;
+    display: inline-block; /* Required for CSS transform rotation */
+    transition: transform 0.3s ease;
 }
 
 .arrow {
-    transform: rotate(180deg);
+    transform: rotate(0deg);
 }
 
 .menuInput:checked ~ .subMenu {
-    /* display: block; */
     height: 120px;
     opacity: 1;
-    transition:  all 0.5s ease;
-    /* transition: opacity 0.4s ease; */
+    transition: all 0.5s ease;
 }
-.menuInput:checked ~ span {
+
+/* Flips the arrow upside down on menu toggle */
+.menuInput:checked ~ span.arrow {
     transform: rotate(180deg);
 }
+
 .menuOpen:checked ~ .menu {
     opacity: 1;
     transform: translateX(0);
@@ -59,6 +70,7 @@ span {
 .menuOpen:checked .container {
     opacity: 0.5;
 }
+
 .title {
     display: flex;
     justify-content: center;
@@ -67,41 +79,59 @@ span {
     font-style: italic;
 }
 
+/* 1. Ensure the menu floats ABOVE everything else */
 .menu {
-    width: 10em;
+    width: 11em;
     position: absolute;
+    top: 2.2em; /* Position right under hamburger */
+    left: 0;
+    z-index: 1000; /* Keeps menu on top layer */
     opacity: 0;
-    /* height: 100%; */
-    /* display: none; */
-    /* top: 0; */
-    /* background-color: rgb(100, 220, 220); */
-    background-image: linear-gradient(to bottom right, rgba(174, 253, 227, 0.75), rgba(168, 217, 255,0.75));
-    /* z-index: 10; */
+    pointer-events: none; /* Prevents clicking menu when invisible */
+    
+    /* Slightly more opaque background + backdrop blur for crisp contrast */
+    background: rgba(220, 245, 240, 0.95);
+    backdrop-filter: blur(8px); 
     border-radius: 0 10px 10px 0;
-    flex-direction: row;
-    list-style-type: none;
-    justify-content: flex-start;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
+    
     transform: translateX(-100%);
     transition: all 0.3s ease;
 }
 
+/* Enable pointer events when checked */
+.menuOpen:checked ~ .menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+}
+
+/* 2. Dim and blur the main section content when menu is toggled open */
+.menuOpen:checked ~ #main,
+.menuOpen:checked ~ .container {
+    opacity: 0.3;
+    filter: brightness(0.6) blur(2px); /* Dims the card underneath */
+    transition: all 0.3s ease;
+    pointer-events: none; /* Disables input clicks while menu is open */
+}
+
+/* 3. Give submenus clean spacing & indentation */
 .subMenu {
-    /* width: 10em; */
-    /* display: none; */
     opacity: 0;
-    left: 1em;
-    padding-top: .5em;
-    border-radius: 10px 10px; 
     height: 0;
-    transition: all 0.5s ease;
-    /* transition: opacity 0.4s ease; */
     overflow: hidden;
+    padding-left: 0.8em; /* Clean indent for items */
+    transition: all 0.3s ease;
 }
 
-.label:hover > .subMenu {
-    display: block;
+.menuInput:checked ~ .subMenu {
+    height: auto; /* Fits content smoothly */
+    opacity: 1;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
 }
 
+.label:hover > .subMenu,
 .label:hover > .menu {
     display: block;
 }
@@ -112,40 +142,62 @@ input {
     width: 100%;
 }
 
+/* 3. Fix input layout & spacing relative to labels */
+.section div {
+    display: flex;
+    flex-direction: column; /* Stacks label cleanly directly above the input */
+    align-items: flex-start;
+    gap: 0.3em; /* Adds a clean gap between label and input box */
+}
+
 .section label {
     font-family: Verdana;
-    font-size: 1.5em;
-    font-weight: lighter;
+    font-size: 1.1em; /* Reduced font size so label doesn't crowd the box */
+    font-weight: 600;
+    color: #333;
 }
 
 .container {
     height: 62vh;
     width: 100vw;
-    /* margin-top: 18vh; */
     display: flex;
     align-items: center;
     justify-content: center;
-    /* opacity: 0; */
     transition: opacity .5s ease;
 }
 
+/* 1. Make the section card responsive on small screens */
 .section {
     background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
     display: flex;
     justify-content: center;
     flex-direction: column;
-    row-gap: 2em;
-    padding: 1em;
+    row-gap: 1.2em; /* Reduced spacing slightly so content fits cleanly */
+    padding: 1.5em;
     border-radius: 10px;
     height: auto;
-    margin: 1em;
-    width: 50%;
+    margin: 1em auto;
+    
+    /* FIX: Allow card to expand on mobile instead of locking to 50% */
+    width: 90%; 
+    max-width: 450px; 
+}
+
+/* Component Fade In/Out Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Subtle slide-up effect */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .show {
     display: flex;
-    /* opacity: 1;
-    transition: opacity 1s ease; */
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
 .comps {
@@ -156,4 +208,16 @@ input {
 .items:hover {
     background-color: lightgray;
     transition: background-color 0.3s ease-in-out;
+}
+
+.calc-title {
+    font-family: Verdana, sans-serif;
+    font-size: 1.5em; /* Scaled down slightly so long titles fit on one line */
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.3em;
+    word-wrap: break-word; /* Safety check for long words */
 }

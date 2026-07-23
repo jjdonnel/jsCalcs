@@ -1,58 +1,55 @@
 function openMain() {
     let primary = document.getElementById('main');
-    primary.classList.toggle('show');
-};
+    if (primary) primary.classList.toggle('show');
+}
 
 function open() {
-  let btn = document.getElementById('icon');
-  let top = document.getElementById('top');
-  if (top) {
-    top.checked = !top.checked;
-  }
+    let top = document.getElementById('top');
+    if (top) {
+        top.checked = !top.checked;
+    }
 }
 
 function openConv() {
     let convSub = document.getElementById('convSub');
-    convSub.classList.toggle('show');
-};
+    if (convSub) convSub.classList.toggle('show');
+}
 
 function openFin() {
     let finSub = document.getElementById('finSub');
-    finSub.classList.toggle('show');
-};
+    if (finSub) finSub.classList.toggle('show');
+}
 
 function closeMenus() {
-    let menus = document.getElementsByClassName('subMenu');
-    let mainMenu = document.getElementById('primary');
-    menus.classList.remove('show');
-    mainMenu.classList.remove('show');
-};
-
-const menu = document.querySelectorAll('.menuInput'); // Select the main menu
-const items = document.querySelectorAll('.items'); // Select all submenu items
-
-items.forEach(item => {
-  item.addEventListener('click', () => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    checkboxes.forEach(checkbox => {
-      checkbox.checked = false;
-    });
+    // Loop safely over all submenus
+    let menus = document.querySelectorAll('.subMenu');
+    menus.forEach(menu => menu.classList.remove('show'));
     
-    // Remove the 'open' class from the main menu
-    // (Assuming 'open' class controls the menu's visibility)
-  });
+    let mainMenu = document.getElementById('primary');
+    if (mainMenu) mainMenu.classList.remove('show');
+}
+
+// Automatically close mobile menu checkboxes when an item is selected
+const items = document.querySelectorAll('.items');
+items.forEach(item => {
+    item.addEventListener('click', () => {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    });
 });
 
-const menuBtn = document.getElementById('open');
+// Dropdown listener with safety checks
+const dropdown = document.getElementById('nav');
 const mainMenu = document.getElementById('mainMenu');
 
-let dropdown = document.getElementById('nav');
-
-dropdown.addEventListener('click', (e) => {
-  if (mainMenu.display = 'none') {
-    mainMenu.display = 'block';
-  } else {
-    mainMenu.display = 'none';  
-  }
-})
- 
+if (dropdown && mainMenu) {
+    dropdown.addEventListener('click', () => {
+        if (mainMenu.style.display === 'none' || mainMenu.style.display === '') {
+            mainMenu.style.display = 'block';
+        } else {
+            mainMenu.style.display = 'none';  
+        }
+    });
+}

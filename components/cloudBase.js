@@ -1,41 +1,57 @@
 function displayCloudBase() {
     const main = document.getElementById('main');
-    // main.classList.remove('show');
-    main.innerHTML =
-        ` <div id="cloudBase" class="section">
-            <div>
-                <label>Temperature</label>
-                <input type="number" id="temp" placeholder="Temperature">
-            </div>
-            <div>
-                <label>Dew Point</label>
-                <input type="number" id="dew" placeholder="Dew Point">
-            </div>
-            <div>
-                <label>Cloud Base</label>
-                <input type="number" id="cloud" placeholder="Cloud Base">
-            </div>
-            
-        </div>`
+    if (!main) return;
 
-    // function show() {
-    //     main.classList.add('show');
-    // }
-    // show();
+    // 1. Reset class to allow animation re-triggering
+    main.classList.remove('show');
+    
+    // Force a minor reflow so the browser registers the removal
+    void main.offsetWidth;
+
+    main.innerHTML = `
+        <div id="cb" class="section">
+            <h2 class="calc-title">Cloud Base Height</h2>
+            <div>
+                <label>Temperature (°F)</label>
+                <input type="number" id="temp" placeholder="e.g. 72" step="0.1">
+            </div>
+            <div>
+                <label>Dew Point (°F)</label>
+                <input type="number" id="dp" placeholder="e.g. 55" step="0.1">
+            </div>
+            <div>
+                <label>Estimated Cloud Base</label>
+                <input type="text" id="cbres" placeholder="Calculated height" readonly>
+            </div>
+        </div>
+    `;
+
+    main.classList.add('show');
 
     const temp = document.getElementById("temp");
-    const dew = document.getElementById("dew");
-    const cloud = document.getElementById("cloud");
+    const dp = document.getElementById("dp");
+    const cbres = document.getElementById("cbres");
 
-    temp.addEventListener("input", function () {
-        let t = parseInt(temp.value);
-        let d = parseInt(dew.value || 0);
-        cloud.value = parseFloat((t - d) * 220);
-    });
+    function calculateCloudBase() {
+        const t = parseFloat(temp.value);
+        const d = parseFloat(dp.value);
 
-    dew.addEventListener("input", function () {
-        let t = parseInt(temp.value || 0);
-        let d = parseInt(dew.value);
-        cloud.value = parseFloat((t - d) * 220);
-    });
-};
+        if (isNaN(t) || isNaN(d)) {
+            cbres.value = "";
+            return;
+        }
+
+        // Spread in Fahrenheit divided by 4.4°F lapse rate per 1,000 ft
+        const spread = t - d;
+
+        if (spread <= 0) {
+            cbres.value = "Surface Fog / Mist";
+        } else {
+            const baseFt = Math.round((spread / 4.4) * 1000);
+            cbres.value = `${baseFt.toLocaleString()} ft AGL`;
+        }
+    }
+
+    temp.addEventListener("input", calculateCloudBase);
+    dp.addEventListener("input", calculateCloudBase);
+}
