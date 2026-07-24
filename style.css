@@ -215,6 +215,12 @@ input {
     transition: background-color 0.3s ease-in-out;
 }
 
+.calculator-container {
+    /* Prevents the card from growing larger than the visible screen */
+    max-height: calc(100vh - 80px); 
+    overflow-y: auto; /* Adds a clean scrollbar inside the card if needed */
+}
+
 .calc-title {
     font-family: Verdana, sans-serif;
     font-size: 1.5em; /* Scaled down slightly so long titles fit on one line */
