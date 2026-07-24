@@ -19,9 +19,14 @@ body {
 /* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
 .navbar {
     height: auto;
-    padding: 0.5em 0.8em; /* Subtle top/left padding to pull off the rounded corner */
+    padding: 0.5em 0.8em;
     display: flex;
     align-items: center;
+    
+    /* Add these if you want it pinned above the mobile keyboard scroll */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .label {
