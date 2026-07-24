@@ -19,7 +19,7 @@ body {
 /* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
 .navbar {
     height: auto;
-    padding: 0.5em 0.8em;
+    padding: 0.3em 0.6em;
     display: flex;
     align-items: center;
     
