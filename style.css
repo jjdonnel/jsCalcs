@@ -215,12 +215,6 @@ input {
     transition: background-color 0.3s ease-in-out;
 }
 
-.calculator-container {
-    /* Prevents the card from growing larger than the visible screen */
-    max-height: calc(100vh - 80px); 
-    overflow-y: auto; /* Adds a clean scrollbar inside the card if needed */
-}
-
 .calc-title {
     font-family: Verdana, sans-serif;
     font-size: 1.5em; /* Scaled down slightly so long titles fit on one line */
@@ -231,4 +225,14 @@ input {
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     padding-bottom: 0.3em;
     word-wrap: break-word; /* Safety check for long words */
+}
+
+/* When screen height shrinks (like when a keyboard pops up) */
+@media (max-height: 650px) {
+    .calculator-container {
+        padding: 0.8em; /* Tighter padding */
+    }
+    .input-group {
+        margin-bottom: 0.5em; /* Less space between input fields */
+    }
 }
