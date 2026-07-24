@@ -19,7 +19,7 @@ body {
 /* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
 .navbar {
     height: auto;
-    padding: 0.3em 0.6em;
+    padding: 0.4em 0.5em;
     display: flex;
     align-items: center;
     
@@ -225,6 +225,13 @@ input {
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     padding-bottom: 0.3em;
     word-wrap: break-word; /* Safety check for long words */
+}
+
+/* Tighten up the Future Value component specifically */
+.future-value-container {
+    padding: 0.8rem 1rem;       /* Reduces top/bottom padding inside the card */
+    max-height: 80vh;           /* Caps total height relative to screen */
+    overflow-y: auto;           /* Adds smooth internal scroll if content overflows */
 }
 
 /* When screen height shrinks (like when a keyboard pops up) */
