@@ -53,3 +53,11 @@ if (dropdown && mainMenu) {
         }
     });
 }
+
+// Prevent mobile keyboard from scrolling the container up
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', () => {
+        // Keeps the page pinned at the absolute top when keyboard triggers
+        window.scrollTo(0, 0); 
+    });
+}
