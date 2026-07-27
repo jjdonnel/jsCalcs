@@ -16,17 +16,60 @@ body {
     background-repeat: no-repeat;
 }
 
-/* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
+.app-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1e3a8a; /* Matches your dark heading color */
+    margin: 0;
+}
+
 .navbar {
-    height: auto;
-    padding: 0.3em 0.3em;
-    display: flex;
-    align-items: center;
-    
-    /* Add these if you want it pinned above the mobile keyboard scroll */
     position: sticky;
     top: 0;
     z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+/* Centered Title with Native Font Styling */
+.brand-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* Locks exact horizontal center */
+    margin: 0;
+    
+    font-family: inherit;         /* Uses your existing page font */
+    font-size: 1.25rem;           /* Sized down to fit neatly in the header */
+    font-style: italic;          /* Matches the homepage title style */
+    font-weight: 600;            /* Semi-bold for clean header contrast */
+    color: #0f172a;              /* Matches your dark text color */
+    letter-spacing: -0.01em;     /* Natural spacing */
+    
+    cursor: pointer;
+    user-select: none;
+}
+
+/* Off-canvas mobile menu drawer */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Hidden off-screen by default */
+    width: 250px;
+    height: 100vh;
+    background: #1e293b; /* Dark sleek background */
+    color: #fff;
+    transition: left 0.3s ease;
+    z-index: 2000;
+    padding: 2rem 1rem;
+}
+
+/* Class toggled via JS when hamburger is clicked */
+.nav-menu.open {
+    left: 0;
 }
 
 .label {
@@ -244,5 +287,33 @@ input {
     }
     .input-group {
         margin-bottom: 0.4em;   /* Brings form fields closer together */
+    }
+}
+
+/* Tighten spacing specifically for mobile viewports */
+@media (max-width: 600px) {
+    .future-value-container {
+        padding: 0.75rem 1rem;     /* Reduces internal padding top & bottom */
+        margin-top: 0.25rem;       /* Pulls card closer to top navbar */
+    }
+
+    .future-value-container h2 {
+        font-size: 1.2rem;         /* Shrinks title text slightly */
+        margin-top: 0;
+        margin-bottom: 0.4rem;     /* Reduces space below heading line */
+    }
+
+    .future-value-container .input-group {
+        margin-bottom: 0.35rem;    /* Tightens gap between each field */
+    }
+
+    .future-value-container label {
+        font-size: 0.8rem;
+        margin-bottom: 0.1rem;     /* Brings labels right above input boxes */
+    }
+
+    .future-value-container input {
+        padding: 0.3rem 0.5rem;    /* Slims down input box height */
+        font-size: 0.95rem;
     }
 }
