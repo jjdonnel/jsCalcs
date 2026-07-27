@@ -87,9 +87,10 @@ span {
 /* 1. Ensure the menu floats ABOVE everything else */
 .menu {
     width: 11em;
-    position: absolute;
-    top: 2.2em; /* Position right under hamburger */
-    left: 0;
+    position: fixed;
+    bottom: 85px;         /* Sits just above the 52px button + spacing */
+    left: 0;              /* Retains your slide-out anchor from the left */
+    top: auto;
     z-index: 1000; /* Keeps menu on top layer */
     opacity: 0;
     pointer-events: none; /* Prevents clicking menu when invisible */
@@ -225,6 +226,31 @@ input {
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
     padding-bottom: 0.3em;
     word-wrap: break-word; /* Safety check for long words */
+}
+
+/* 1. Position the FAB to the Bottom-Left */
+.fab-menu-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;                 /* Moved to bottom-left */
+    right: auto;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    
+    /* Matches your card theme (Teal/Slate gradient accent) */
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    color: #ffffff;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    z-index: 9999;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease, background 0.2s ease;
 }
 
 /* Tighten up the Future Value component specifically */
