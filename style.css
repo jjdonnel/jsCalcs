@@ -254,11 +254,11 @@ input {
 }
 
 /* Tighten up the Future Value component specifically */
-.future-value-container {
-    padding: 0.8rem 1rem;       /* Reduces top/bottom padding inside the card */
-    max-height: 80vh;           /* Caps total height relative to screen */
-    overflow-y: auto;           /* Adds smooth internal scroll if content overflows */
-}
+/* .future-value-container {
+    padding: 0.8rem 1rem;     
+    max-height: 80vh;         
+    overflow-y: auto;          
+} */
 
 /* When screen height shrinks (like when a keyboard pops up) */
 @media (max-height: 650px) {
