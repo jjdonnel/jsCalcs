@@ -229,17 +229,20 @@ input {
 
 /* Tighten up the Future Value component specifically */
 .future-value-container {
+    position: sticky;
+    top: 60px;                  /* Keeps it pinned below the navbar */
     padding: 0.8rem 1rem;       /* Reduces top/bottom padding inside the card */
-    max-height: 80vh;           /* Caps total height relative to screen */
+    max-height: calc(100dvh - 70px); /* Uses dynamic viewport height so it shrinks with the keyboard */
     overflow-y: auto;           /* Adds smooth internal scroll if content overflows */
 }
 
 /* When screen height shrinks (like when a keyboard pops up) */
 @media (max-height: 650px) {
-    .calculator-container {
-        padding: 0.8em; /* Tighter padding */
+    .calculator-container,
+    .future-value-container {
+        padding: 0.5rem 0.8rem; /* Extra tight padding on short screens */
     }
     .input-group {
-        margin-bottom: 0.5em; /* Less space between input fields */
+        margin-bottom: 0.4em;   /* Brings form fields closer together */
     }
 }
