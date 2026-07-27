@@ -61,13 +61,3 @@ if (window.visualViewport) {
         window.scrollTo(0, 0); 
     });
 }
-
-// Stops iOS Safari from scrolling the layout when tapping an input
-document.querySelectorAll('input').forEach(input => {
-    input.addEventListener('focus', () => {
-        setTimeout(() => {
-            window.scrollTo(0, 0);
-            document.body.scrollTop = 0;
-        }, 50);
-    });
-});
