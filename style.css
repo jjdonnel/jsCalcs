@@ -1,3 +1,6 @@
+/* ==========================================
+   1. RESETS & BASE STYLES
+   ========================================== */
 * {
     margin: 0;
     padding: 0;
@@ -11,27 +14,10 @@
 }
 
 body {
-    height: 100vh;
+    min-height: 100dvh; /* Dynamic viewport height prevents iOS toolbar offset bugs */
     background-image: linear-gradient(to bottom right, rgba(50, 150, 150, 0.5), var(--accent-color));
     background-repeat: no-repeat;
     background-attachment: fixed;
-}
-
-/* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
-.navbar {
-    height: auto;
-    padding: 0.3em 0.3em;
-    display: flex;
-    align-items: center;
-    
-    /* Add these if you want it pinned above the mobile keyboard scroll */
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.label {
-    height: 2em;
 }
 
 ul {
@@ -39,42 +25,50 @@ ul {
 }
 
 li {
-    padding: .5em;
+    padding: 0.5em;
 }
 
 input[type="checkbox"] {
     display: none;
 }
 
-span {
-    font-size: 1.4em;
-    display: inline-block; /* Required for CSS transform rotation */
-    transition: transform 0.3s ease;
+/* ==========================================
+   2. MAIN LAYOUT & CALCULATOR CARDS
+   ========================================== */
+.container {
+    min-height: 80vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0; /* Ensures breathing room for scrolling */
+    transition: opacity 0.5s ease;
 }
 
-.arrow {
-    transform: rotate(0deg);
+.section {
+    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    row-gap: 1.2em;
+    padding: 1.5em;
+    border-radius: 10px;
+    height: auto;
+    margin: 1em auto;
+    width: 90%;
+    max-width: 450px;
 }
 
-.menuInput:checked ~ .subMenu {
-    height: 120px;
-    opacity: 1;
-    transition: all 0.5s ease;
-}
-
-/* Flips the arrow upside down on menu toggle */
-.menuInput:checked ~ span.arrow {
-    transform: rotate(180deg);
-}
-
-.menuOpen:checked ~ .menu {
-    opacity: 1;
-    transform: translateX(0);
-    transition: all 0.3s ease;
-}
-
-.menuOpen:checked .container {
-    opacity: 0.5;
+.calc-title {
+    font-family: Verdana, sans-serif;
+    font-size: 1.5em;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 0.5em;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.3em;
+    word-wrap: break-word;
 }
 
 .title {
@@ -83,22 +77,111 @@ span {
     align-items: center;
     font-size: 3em;
     font-style: italic;
+    font-weight: normal;
+    color: #2c3e50;
+    text-align: center;
+    margin: 1rem 0;
 }
 
-/* 1. Ensure the menu floats ABOVE everything else */
+/* Form Groups & Inputs */
+.section div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3em;
+}
+
+.section label {
+    font-family: Verdana, sans-serif;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Ensures 16px minimum to prevent iOS Safari auto-zooming on input focus */
+.section input {
+    font-size: 16px;
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* ==========================================
+   3. NAVIGATION & FAB MENU
+   ========================================== */
+.navbar {
+    height: auto;
+    padding: 0.3em 0.3em;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Top-Left Menu Trigger Button (Glassmorphism & Site Palette) */
+.fab-menu-btn {
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    bottom: auto;
+    right: auto;
+    
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    
+    /* Light teal-to-cyan theme gradient with transparency */
+    background: linear-gradient(135deg, rgba(185, 249, 244, 0.75), rgba(78, 159, 173, 0.75));
+    
+    /* Glassmorphism Blur & Crisp Border */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    
+    /* Dark slate icon color for contrast against light glass */
+    color: #2c3e50;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    z-index: 9999;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Subtle active/pressed effect */
+.fab-menu-btn:active {
+    transform: scale(0.95);
+    background: linear-gradient(135deg, rgba(174, 253, 227, 0.9), rgba(168, 217, 255, 0.9));
+}
+
+.fab-menu-btn:active {
+    transform: scale(0.95);
+}
+
+.fab-menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* Slide-out Menu Anchor (Top Left) */
 .menu {
     width: 11em;
     position: fixed;
-    bottom: 85px;         /* Sits just above the 52px button + spacing */
-    left: 0;              /* Retains your slide-out anchor from the left */
-    top: auto;
-    z-index: 1000; /* Keeps menu on top layer */
-    opacity: 0;
-    pointer-events: none; /* Prevents clicking menu when invisible */
+    top: 57px;                  /* Sits directly under top button (16px + 48px + spacing) */
+    left: 0;
+    bottom: auto;               /* Clears bottom positioning */
     
-    /* Slightly more opaque background + backdrop blur for crisp contrast */
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    
     background: rgba(220, 245, 240, 0.95);
-    backdrop-filter: blur(8px); 
+    backdrop-filter: blur(8px);
     border-radius: 0 10px 10px 0;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
     
@@ -106,104 +189,66 @@ span {
     transition: all 0.3s ease;
 }
 
-/* Enable pointer events when checked */
+.label {
+    height: 2em;
+}
+
+.items:hover {
+    background-color: lightgray;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.arrow {
+    font-size: 1.4em;
+    display: inline-block;
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+}
+
+.subMenu {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    padding-left: 0.8em;
+    transition: all 0.3s ease;
+}
+
+/* ==========================================
+   4. TOGGLE STATES & ANIMATIONS
+   ========================================== */
+/* Open Menu State */
 .menuOpen:checked ~ .menu {
     opacity: 1;
     pointer-events: auto;
     transform: translateX(0);
 }
 
-/* 2. Dim and blur the main section content when menu is toggled open */
+/* Dim & Blur Main Content when Menu is Open */
 .menuOpen:checked ~ #main,
 .menuOpen:checked ~ .container {
     opacity: 0.3;
-    filter: brightness(0.6) blur(2px); /* Dims the card underneath */
+    filter: brightness(0.6) blur(2px);
     transition: all 0.3s ease;
-    pointer-events: none; /* Disables input clicks while menu is open */
+    pointer-events: none;
 }
 
-/* 3. Give submenus clean spacing & indentation */
-.subMenu {
-    opacity: 0;
-    height: 0;
-    overflow: hidden;
-    padding-left: 0.8em; /* Clean indent for items */
-    transition: all 0.3s ease;
-}
-
+/* Submenu Toggle States */
 .menuInput:checked ~ .subMenu {
-    height: auto; /* Fits content smoothly */
+    height: auto;
     opacity: 1;
     padding-top: 0.4em;
     padding-bottom: 0.4em;
 }
 
-.label:hover > .subMenu,
-.label:hover > .menu {
-    display: block;
+.menuInput:checked ~ span.arrow {
+    transform: rotate(180deg);
 }
 
-input {
-    font-size: 1.5em;
-    float: right;
-    width: 100%;
-}
-
-/* 3. Fix input layout & spacing relative to labels */
-.section div {
-    display: flex;
-    flex-direction: column; /* Stacks label cleanly directly above the input */
-    align-items: flex-start;
-    gap: 0.3em; /* Adds a clean gap between label and input box */
-}
-
-.section label {
-    font-family: Verdana;
-    font-size: 1.1em; /* Reduced font size so label doesn't crowd the box */
-    font-weight: 600;
-    color: #333;
-}
-
-.container {
-    min-height: 80vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem 0; /* Ensures top/bottom breathing room for scrolling */
-    transition: opacity .5s ease;
-}
-
-/* 1. Make the section card responsive on small screens */
-.section {
-    background-image: linear-gradient(to bottom right, rgb(174, 253, 227), rgb(168, 217, 255));
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    row-gap: 1.2em; /* Reduced spacing slightly so content fits cleanly */
-    padding: 1.5em;
-    border-radius: 10px;
-    height: auto;
-    margin: 1em auto;
-    
-    /* FIX: Allow card to expand on mobile instead of locking to 50% */
-    width: 90%; 
-    max-width: 450px; 
-}
-
-.section input {
-    font-size: 16px; /* Essential for iOS Safari to avoid mandatory screen-zooming */
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-}
-
-/* Component Fade In/Out Animation */
+/* Component Transition */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px); /* Subtle slide-up effect */
+        transform: translateY(10px);
     }
     to {
         opacity: 1;
@@ -216,66 +261,10 @@ input {
     animation: fadeIn 0.4s ease-out forwards;
 }
 
-.comps {
-    padding: 1em;
-    font-size: 1em;
-}
-
-.items:hover {
-    background-color: lightgray;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.calc-title {
-    font-family: Verdana, sans-serif;
-    font-size: 1.5em; /* Scaled down slightly so long titles fit on one line */
-    font-weight: 600;
-    color: #2c3e50;
-    text-align: center;
-    margin-bottom: 0.5em;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    padding-bottom: 0.3em;
-    word-wrap: break-word; /* Safety check for long words */
-}
-
-/* 1. Position the FAB to the Bottom-Left */
-.fab-menu-btn {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;                 /* Moved to bottom-left */
-    right: auto;
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    
-    /* Matches your card theme (Teal/Slate gradient accent) */
-    background: linear-gradient(135deg, #1e3a8a, #0f172a);
-    color: #ffffff;
-    
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-    z-index: 9999;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-
-/* Tighten up the Future Value component specifically */
-/* .future-value-container {
-    padding: 0.8rem 1rem;     
-    max-height: 80vh;         
-    overflow-y: auto;          
-} */
-
-/* When screen height shrinks (like when a keyboard pops up) */
+/* Responsive Keyboard Height Adjustments */
 @media (max-height: 650px) {
-    .calculator-container {
-        padding: 0.8em; /* Tighter padding */
-    }
-    .input-group {
-        margin-bottom: 0.5em; /* Less space between input fields */
+    .section {
+        padding: 1em;
+        row-gap: 0.8em;
     }
 }
