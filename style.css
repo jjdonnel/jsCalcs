@@ -14,6 +14,7 @@ body {
     height: 100vh;
     background-image: linear-gradient(to bottom right, rgba(50, 150, 150, 0.5), var(--accent-color));
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* 1. Navbar layout: Keeps icon neatly aligned with subtle padding from corners */
@@ -164,11 +165,12 @@ input {
 }
 
 .container {
-    height: 62vh;
+    min-height: 80vh;
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 2rem 0; /* Ensures top/bottom breathing room for scrolling */
     transition: opacity .5s ease;
 }
 
@@ -187,6 +189,14 @@ input {
     /* FIX: Allow card to expand on mobile instead of locking to 50% */
     width: 90%; 
     max-width: 450px; 
+}
+
+.section input {
+    font-size: 16px; /* Essential for iOS Safari to avoid mandatory screen-zooming */
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
 }
 
 /* Component Fade In/Out Animation */

@@ -2,30 +2,27 @@ function displayFutureValue() {
     const main = document.getElementById('main');
     if (!main) return;
 
-    // 1. Reset class to allow animation re-triggering
     main.classList.remove('show');
-    
-    // Force a minor reflow so the browser registers the removal
-    void main.offsetWidth;
+    void main.offsetWidth; // Force reflow
 
     main.innerHTML = `
         <div id="fv" class="section">
             <h2 class="calc-title">Future Value Savings</h2>
             <div>
                 <label>Starting Principal ($)</label>
-                <input type="number" id="principal" placeholder="e.g. 5000">
+                <input type="number" id="principal" placeholder="e.g. 5000" inputmode="decimal">
             </div>
             <div>
                 <label>Monthly Addition ($)</label>
-                <input type="number" id="addition" placeholder="e.g. 200">
+                <input type="number" id="addition" placeholder="e.g. 200" inputmode="decimal">
             </div>
             <div>
                 <label>Annual Rate (%)</label>
-                <input type="number" id="rate" placeholder="e.g. 7" step="0.1">
+                <input type="number" id="rate" placeholder="e.g. 7" step="0.1" inputmode="decimal">
             </div>
             <div>
                 <label>Time (Years)</label>
-                <input type="number" id="time" placeholder="e.g. 10">
+                <input type="number" id="time" placeholder="e.g. 10" inputmode="numeric">
             </div>
             <div>
                 <label>Future Value</label>
@@ -73,7 +70,16 @@ function displayFutureValue() {
         })}`;
     }
 
+    // Attach listeners for both calculation and smooth mobile scrolling
     ["principal", "addition", "rate", "time"].forEach(id => {
-        inputs[id].addEventListener("input", calculateFutureValue);
+        const field = inputs[id];
+        field.addEventListener("input", calculateFutureValue);
+        
+        // Smooth scroll into center view when keyboard appears
+        field.addEventListener("focus", (e) => {
+            setTimeout(() => {
+                e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 300);
+        });
     });
 }
