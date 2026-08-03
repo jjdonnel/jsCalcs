@@ -69,12 +69,12 @@ input[type="checkbox"] {
     font-weight: 500;
     letter-spacing: -0.02em;
     color: #1e293b;
-    text-align: left; /* Changed from center so it pairs nicely with the right-aligned button */
+    text-align: left;
     margin-bottom: 0;
-    border-bottom: none; /* Moved border line to title-wrapper below */
+    border-bottom: none;
     padding-bottom: 0;
     word-wrap: break-word;
-    flex: 1; /* Lets title take remaining space without pushing button to new line */
+    flex: 1; /* Takes up available horizontal space on the left */
 }
 
 .title {
@@ -88,16 +88,16 @@ input[type="checkbox"] {
     margin: 1rem 0;
 }
 
-/* Container for the Title and the Help Button (Crucial for positioning) */
-.section.title-wrapper {
-    display: flex;
-    flex-direction: row;
+/* FIX 1: Target .title-wrapper inside .section and use flex row */
+.section .title-wrapper {
+    display: flex !important;
+    flex-direction: row !important;
     justify-content: space-between;
     align-items: center;
-    position: relative; /* Anchor for the absolute bubble */
-    margin-bottom: 1em;
+    position: relative;
+    margin-bottom: 0.5em;
     border-bottom: 2px solid rgba(0, 0, 0, 0.06);
-    padding-bottom: 0.4em;
+    padding-bottom: 0.5em;
     width: 100%;
 }
 
@@ -109,6 +109,7 @@ input[type="checkbox"] {
 .help-btn {
     width: 28px;
     height: 28px;
+    min-width: 28px; /* Prevents button from shrinking in tight flex spaces */
     border-radius: 50%;
     
     /* Frosted Glass Style */
@@ -154,12 +155,12 @@ input[type="checkbox"] {
 /* 3. The Formula Bubble/Modal (Initially Hidden) */
 .formula-bubble {
     position: absolute;
-    top: 3.5rem; /* Positions it right under the title header */
+    top: 3.5rem; /* Positions directly under the title header */
     right: 1.5rem;
     left: 1.5rem;
     z-index: 100; /* Floats above input fields */
     
-    background: rgba(255, 255, 255, 0.92);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 1.25rem;
@@ -178,15 +179,7 @@ input[type="checkbox"] {
     opacity: 1;
     visibility: visible;
     transform: translateY(0) scale(1);
-    pointer-events: auto;
-}
-
-/* 4. Class to show the bubble */
-.formula-bubble.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-    pointer-events: auto; /* Can click when visible */
+    pointer-events: auto; /* Can click inside when visible */
 }
 
 /* Interior styles for the bubble content */
@@ -215,8 +208,8 @@ input[type="checkbox"] {
     margin-bottom: 0.2rem;
 }
 
-/* Form Groups & Inputs */
-.section div {
+/* FIX 2: Exclude .title-wrapper so form layout styles don't override header row */
+.section div:not(.title-wrapper) {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -230,16 +223,34 @@ input[type="checkbox"] {
     font-weight: 600;
     letter-spacing: 0.01em;
     color: #334155;
-    text-transform: uppercase; /* Subtly modernizes form field headers */
+    text-transform: uppercase;
 }
 
 /* Ensures 16px minimum to prevent iOS Safari auto-zooming on input focus */
-.section input {
+/* Update Form Inputs & Dropdowns */
+.section input,
+.section select {
     font-size: 16px;
     width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #1e293b;
+    outline: none;
+    appearance: none; /* Removes default OS dropdown arrow */
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%3c334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1em;
+    padding-right: 2.5rem; /* Space for custom SVG arrow */
+}
+
+/* Remove default background arrow for text/number inputs */
+.section input {
+    background-image: none;
+    padding-right: 0.75rem;
 }
 
 /* ==========================================
@@ -255,7 +266,7 @@ input[type="checkbox"] {
     z-index: 1000;
 }
 
-/* Top-Left Menu Trigger Button (Glassmorphism & Site Palette) */
+/* Top-Left Menu Trigger Button */
 .fab-menu-btn {
     position: fixed;
     top: 5px;
@@ -267,15 +278,12 @@ input[type="checkbox"] {
     height: 48px;
     border-radius: 50%;
     
-    /* Light teal-to-cyan theme gradient with transparency */
     background: linear-gradient(135deg, rgba(185, 249, 244, 0.75), rgba(78, 159, 173, 0.75));
     
-    /* Glassmorphism Blur & Crisp Border */
     backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.6);
     
-    /* Dark slate icon color for contrast against light glass */
     color: #2c3e50;
     
     display: flex;
@@ -289,27 +297,18 @@ input[type="checkbox"] {
     transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Subtle active/pressed effect */
 .fab-menu-btn:active {
     transform: scale(0.95);
     background: linear-gradient(135deg, rgba(174, 253, 227, 0.9), rgba(168, 217, 255, 0.9));
-}
-
-.fab-menu-btn:active {
-    transform: scale(0.95);
-}
-
-.fab-menu-btn:active {
-    transform: scale(0.95);
 }
 
 /* Slide-out Menu Anchor (Top Left) */
 .menu {
     width: 11em;
     position: fixed;
-    top: 57px;                  /* Sits directly under top button (16px + 48px + spacing) */
-    left: 0;
-    bottom: auto;               /* Clears bottom positioning */
+    top: 57px;
+    left: 12px;
+    bottom: auto;
     
     z-index: 1000;
     opacity: 0;
@@ -317,11 +316,11 @@ input[type="checkbox"] {
     
     background: rgba(220, 245, 240, 0.95);
     backdrop-filter: blur(8px);
-    border-radius: 0 10px 10px 0;
+    border-radius: 12px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
     
-    transform: translateX(-100%);
-    transition: all 0.3s ease;
+    transform: translateX(-110%);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .label {
@@ -351,14 +350,12 @@ input[type="checkbox"] {
 /* ==========================================
    4. TOGGLE STATES & ANIMATIONS
    ========================================== */
-/* Open Menu State */
 .menuOpen:checked ~ .menu {
     opacity: 1;
     pointer-events: auto;
     transform: translateX(0);
 }
 
-/* Dim & Blur Main Content when Menu is Open */
 .menuOpen:checked ~ #main,
 .menuOpen:checked ~ .container {
     opacity: 0.3;
@@ -367,7 +364,6 @@ input[type="checkbox"] {
     pointer-events: none;
 }
 
-/* Submenu Toggle States */
 .menuInput:checked ~ .subMenu {
     height: auto;
     opacity: 1;
@@ -379,7 +375,6 @@ input[type="checkbox"] {
     transform: rotate(180deg);
 }
 
-/* Component Transition */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -396,7 +391,6 @@ input[type="checkbox"] {
     animation: fadeIn 0.4s ease-out forwards;
 }
 
-/* Responsive Keyboard Height Adjustments */
 @media (max-height: 650px) {
     .section {
         padding: 1em;

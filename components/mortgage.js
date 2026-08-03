@@ -2,96 +2,103 @@ function displayMortgage() {
     const main = document.getElementById('main');
     if (!main) return;
 
-    // 1. Reset class to allow animation re-triggering
     main.classList.remove('show');
-    
-    // Force a minor reflow so the browser registers the removal
     void main.offsetWidth;
-    
+
     main.innerHTML = `
-        <div id="mort" class="section">
-            <h2 class="calc-title">Mortgage Calculator</h2>
-            <div>
-                <label>Principal ($)</label>
-                <input type="number" id="mprin" placeholder="e.g. 300000">
+        <div id="mortgage-calc" class="section">
+            <!-- Header Row: Title & Help Button -->
+            <div class="title-wrapper">
+                <h2 class="calc-title">Mortgage Calculator</h2>
+                <button type="button" class="help-btn" onclick="toggleFormula(this)">?</button>
             </div>
-            <div>
-                <label>Interest Rate (%)</label>
-                <input type="number" id="mrate" placeholder="e.g. 6.5" step="0.01">
+
+            <!-- Formula Bubble (Pop-over) -->
+            <div class="formula-bubble">
+                <h4>Mortgage Payment Formula</h4>
+                <p>Calculates fixed monthly principal and interest payments.</p>
+                <strong>Key Formula:</strong>
+                <code>M = P × [ r(1+r)^n ] / [ (1+r)^n - 1 ]</code>
+                <p><small>Where <strong>P</strong> = Principal, <strong>r</strong> = Monthly rate, <strong>n</strong> = Total payments (months).</small></p>
             </div>
+
+            <!-- Input Fields -->
             <div>
-                <label>Term (Years)</label>
-                <input type="number" id="mtime" placeholder="e.g. 30">
+                <label for="mort-home-price">Home Price ($)</label>
+                <input type="number" id="mort-home-price" placeholder="e.g. 400000" inputmode="decimal" step="any">
             </div>
+
             <div>
-                <label>Monthly Payment ($)</label>
-                <input type="text" id="mresu" placeholder="$0.00">
+                <label for="mort-down-pmt">Down Payment ($)</label>
+                <input type="number" id="mort-down-pmt" placeholder="e.g. 80000" inputmode="decimal" step="any">
+            </div>
+
+            <div>
+                <label for="mort-rate">Interest Rate (%)</label>
+                <input type="number" id="mort-rate" placeholder="e.g. 6.8" inputmode="decimal" step="any">
+            </div>
+
+            <div>
+                <label for="mort-term">Loan Term (Years)</label>
+                <select id="mort-term">
+                    <option value="30">30-Year Fixed</option>
+                    <option value="15">15-Year Fixed</option>
+                    <option value="20">20-Year Fixed</option>
+                    <option value="10">10-Year Fixed</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="mort-monthly">Monthly Payment (P&I)</label>
+                <input type="text" id="mort-monthly" placeholder="$0.00 / mo" readonly>
             </div>
         </div>
     `;
 
     main.classList.add('show');
 
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-        maximumFractionDigits: 0
-    });
-    
-    const inputs = {
-        mprin: document.getElementById("mprin"),
-        mrate: document.getElementById("mrate"),
-        mtime: document.getElementById("mtime"),
-        mresu: document.getElementById("mresu")
-    };
+    const homePriceInput = document.getElementById('mort-home-price');
+    const downPmtInput = document.getElementById('mort-down-pmt');
+    const rateInput = document.getElementById('mort-rate');
+    const termSelect = document.getElementById('mort-term');
+    const monthlyOutput = document.getElementById('mort-monthly');
 
-    function calculatePayment() {
-        const p = Number(inputs.mprin.value || 0);
-        const r = Number(inputs.mrate.value || 0) / 1200;
-        const t = Number(inputs.mtime.value || 0) * 12;
+    function calculateMortgage() {
+        const homePrice = parseFloat(homePriceInput.value) || 0;
+        const downPmt = parseFloat(downPmtInput.value) || 0;
+        const annualRate = parseFloat(rateInput.value) / 100;
+        const years = parseFloat(termSelect.value);
 
-        if (p === 0 || t === 0) {
-            inputs.mresu.value = "";
+        const principal = homePrice - downPmt;
+
+        if (principal <= 0 || isNaN(annualRate) || annualRate <= 0) {
+            monthlyOutput.value = "";
             return;
         }
 
-        if (r === 0) {
-            inputs.mresu.value = formatter.format(p / t);
-            return;
-        }
+        const monthlyRate = annualRate / 12;
+        const totalPayments = years * 12;
 
-        const payment = (p * r) / (1 - Math.pow(1 + r, -t));
-        inputs.mresu.value = payment > 0 ? formatter.format(payment) : "";
+        const monthlyPmt = principal * 
+            (monthlyRate * Math.pow(1 + monthlyRate, totalPayments)) / 
+            (Math.pow(1 + monthlyRate, totalPayments) - 1);
+
+        monthlyOutput.value = new Intl.NumberFormat('en-US', { 
+            style: 'currency', 
+            currency: 'USD' 
+        }).format(monthlyPmt) + " / mo";
     }
 
-    function calculateAffordablePrincipal() {
-        const rawPaymentString = inputs.mresu.value.replace(/[^0-9.]/g, '');
-        const m = Number(rawPaymentString || 0);
-        const r = Number(inputs.mrate.value || 0) / 1200;
-        const t = Number(inputs.mtime.value || 0) * 12;
+    [homePriceInput, downPmtInput, rateInput, termSelect].forEach(element => {
+        element.addEventListener('input', calculateMortgage);
+        element.addEventListener('change', calculateMortgage);
 
-        if (m === 0 || t === 0) {
-            inputs.mprin.value = "";
-            return;
+        if (element.tagName === 'INPUT') {
+            element.addEventListener('focus', (e) => {
+                setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            });
         }
-
-        if (r === 0) {
-            inputs.mprin.value = Math.round(m * t);
-            return;
-        }
-
-        const principal = (m * (1 - Math.pow(1 + r, -t))) / r;
-        inputs.mprin.value = principal > 0 ? Math.round(principal) : "";
-    }
-
-    ["mprin", "mrate", "mtime"].forEach(id => {
-        inputs[id].addEventListener("input", calculatePayment);
-    });
-
-    inputs.mresu.addEventListener("input", calculateAffordablePrincipal);
-    
-    inputs.mresu.addEventListener("blur", () => {
-        const rawVal = inputs.mresu.value.replace(/[^0-9.]/g, '');
-        if (rawVal) inputs.mresu.value = formatter.format(Number(rawVal));
     });
 }

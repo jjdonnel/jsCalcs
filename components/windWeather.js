@@ -6,84 +6,108 @@ function displayWindWeather() {
     void main.offsetWidth; // Force reflow for fade-in animation
 
     main.innerHTML = `
-        <div id="wind-calc" class="section">
-            <h2 class="calc-title">Wind & Weather</h2>
-            
+        <div id="wind-weather-calc" class="section">
+            <!-- Header Row: Title & Help Button -->
+            <div class="title-wrapper">
+                <h2 class="calc-title">Wind & Weather</h2>
+                <button type="button" class="help-btn" onclick="toggleFormula(this)">?</button>
+            </div>
+
+            <!-- Formula Bubble (Pop-over) -->
+            <div class="formula-bubble">
+                <h4>Weather Calculations</h4>
+                <p><strong>Feels Like:</strong> Uses NWS Wind Chill (≤50°F & wind >3mph) or Heat Index (≥80°F & RH ≥40%).</p>
+                <p><strong>Cloud Base:</strong> Cloud Base (ft) ≈ ((Temp °F - Dew Point °F) / 4.4) × 1000.</p>
+            </div>
+
+            <!-- Input Fields -->
             <div>
-                <label>Air Temperature (°F)</label>
-                <input type="number" id="tempF" placeholder="e.g. 35" inputmode="decimal">
+                <label for="ww-temp">Air Temperature (°F)</label>
+                <input type="number" id="ww-temp" placeholder="e.g. 72" inputmode="decimal" step="any">
             </div>
 
             <div>
-                <label>Wind Speed (MPH)</label>
-                <input type="number" id="windMph" placeholder="e.g. 15" inputmode="decimal">
+                <label for="ww-wind">Wind Speed (mph)</label>
+                <input type="number" id="ww-wind" placeholder="e.g. 12" inputmode="decimal" step="any">
             </div>
 
             <div>
-                <label>Wind Chill ("Feels Like" °F)</label>
-                <input type="text" id="windChill" placeholder="--°F" readonly>
+                <label for="ww-humidity">Relative Humidity (%)</label>
+                <input type="number" id="ww-humidity" placeholder="e.g. 55" inputmode="decimal" step="any">
             </div>
 
             <div>
-                <label>Beaufort Scale Rating</label>
-                <input type="text" id="beaufort" placeholder="-- (e.g. Force 4 - Moderate Breeze)" readonly>
+                <label for="ww-dewpoint">Dew Point (°F) - Optional</label>
+                <input type="number" id="ww-dewpoint" placeholder="e.g. 50" inputmode="decimal" step="any">
+            </div>
+
+            <div>
+                <label for="ww-feels-like">Perceived "Feels Like" Temp</label>
+                <input type="text" id="ww-feels-like" placeholder="-- °F" readonly>
+            </div>
+
+            <div>
+                <label for="ww-cloud-base">Est. Cumulus Cloud Base (AGL)</label>
+                <input type="text" id="ww-cloud-base" placeholder="-- ft" readonly>
             </div>
         </div>
     `;
 
     main.classList.add('show');
 
-    const inputs = {
-        tempF: document.getElementById('tempF'),
-        windMph: document.getElementById('windMph'),
-        windChill: document.getElementById('windChill'),
-        beaufort: document.getElementById('beaufort')
-    };
+    // Element references
+    const tempInput = document.getElementById('ww-temp');
+    const windInput = document.getElementById('ww-wind');
+    const humidityInput = document.getElementById('ww-humidity');
+    const dewPointInput = document.getElementById('ww-dewpoint');
+    const feelsLikeOutput = document.getElementById('ww-feels-like');
+    const cloudBaseOutput = document.getElementById('ww-cloud-base');
 
     function calculateWeather() {
-        const t = parseFloat(inputs.tempF.value);
-        const v = parseFloat(inputs.windMph.value);
+        const T = parseFloat(tempInput.value);
+        const V = parseFloat(windInput.value) || 0;
+        const RH = parseFloat(humidityInput.value);
+        const DP = parseFloat(dewPointInput.value);
 
-        // 1. Calculate Wind Chill (NWS Formula valid for Temp <= 50°F and Wind > 3 MPH)
-        if (!isNaN(t) && !isNaN(v) && t <= 50 && v > 3) {
-            const chill = 35.74 + (0.6215 * t) - (35.75 * Math.pow(v, 0.16)) + (0.4275 * t * Math.pow(v, 0.16));
-            inputs.windChill.value = `${Math.round(chill)}°F`;
-        } else if (!isNaN(t)) {
-            inputs.windChill.value = `${Math.round(t)}°F (No Wind Chill Effect)`;
+        // --- 1. Calculate Feels Like Temperature ---
+        if (!isNaN(T)) {
+            let feelsLike = T;
+
+            // NWS Wind Chill: T <= 50°F and V > 3 mph
+            if (T <= 50 && V > 3) {
+                feelsLike = 35.74 + (0.6215 * T) - (35.75 * Math.pow(V, 0.16)) + (0.4275 * T * Math.pow(V, 0.16));
+            } 
+            // NWS Heat Index: T >= 80°F and RH present
+            else if (T >= 80 && !isNaN(RH) && RH >= 40) {
+                feelsLike = -42.379 + (2.04901523 * T) + (10.14333127 * RH) 
+                    - (0.22475541 * T * RH) - (0.00683783 * T * T) 
+                    - (0.05481717 * RH * RH) + (0.00122874 * T * T * RH) 
+                    + (0.00085282 * T * RH * RH) - (0.00000199 * T * T * RH * RH);
+            }
+
+            feelsLikeOutput.value = Math.round(feelsLike) + " °F";
         } else {
-            inputs.windChill.value = "";
+            feelsLikeOutput.value = "";
         }
 
-        // 2. Determine Beaufort Scale based on Wind Speed (MPH)
-        if (isNaN(v) || v < 0) {
-            inputs.beaufort.value = "";
-            return;
+        // --- 2. Calculate Cloud Base Height (AGL) ---
+        if (!isNaN(T) && !isNaN(DP)) {
+            if (DP > T) {
+                cloudBaseOutput.value = "Dew point exceeds temp";
+            } else {
+                const cloudBaseFt = ((T - DP) / 4.4) * 1000;
+                cloudBaseOutput.value = Math.round(cloudBaseFt).toLocaleString() + " ft AGL";
+            }
+        } else {
+            cloudBaseOutput.value = "";
         }
-
-        let scaleText = "";
-        if (v < 1) scaleText = "Force 0 - Calm";
-        else if (v <= 3) scaleText = "Force 1 - Light Air";
-        else if (v <= 7) scaleText = "Force 2 - Light Breeze";
-        else if (v <= 12) scaleText = "Force 3 - Gentle Breeze";
-        else if (v <= 18) scaleText = "Force 4 - Moderate Breeze";
-        else if (v <= 24) scaleText = "Force 5 - Fresh Breeze";
-        else if (v <= 31) scaleText = "Force 6 - Strong Breeze";
-        else if (v <= 38) scaleText = "Force 7 - Near Gale";
-        else if (v <= 46) scaleText = "Force 8 - Gale";
-        else if (v <= 54) scaleText = "Force 9 - Strong Gale";
-        else if (v <= 63) scaleText = "Force 10 - Storm";
-        else if (v <= 72) scaleText = "Force 11 - Violent Storm";
-        else scaleText = "Force 12 - Hurricane Force";
-
-        inputs.beaufort.value = scaleText;
     }
 
-    ["tempF", "windMph"].forEach(id => {
-        const field = inputs[id];
-        field.addEventListener('input', calculateWeather);
+    // Attach listeners
+    [tempInput, windInput, humidityInput, dewPointInput].forEach(element => {
+        element.addEventListener('input', calculateWeather);
 
-        // Mobile Safari focus & smooth scroll centering
-        field.addEventListener('focus', (e) => {
+        element.addEventListener('focus', (e) => {
             setTimeout(() => {
                 e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 300);
