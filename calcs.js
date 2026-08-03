@@ -67,22 +67,21 @@ if (window.visualViewport) {
  * @param {HTMLElement} button - The help button element that was clicked.
  */
 function toggleFormula(button) {
-    // 1. Find the relevant wrapper container starting from the button.
-    const titleWrapper = button.closest('.title-wrapper');
-    if (!titleWrapper) return;
+    // 1. Find the parent component card
+    const card = button.closest('.section');
+    if (!card) return;
     
-    // 2. Locate the unique bubble inside that container.
-    const bubble = titleWrapper.querySelector('.formula-bubble');
+    // 2. Find the formula bubble inside this card
+    const bubble = card.querySelector('.formula-bubble');
     if (!bubble) return;
 
-    // 3. Close ANY other open formula bubbles first.
-    // This maintains the clean UI, allowing only one info panel open at a time.
+    // 3. Close any other open formula bubbles across the app
     document.querySelectorAll('.formula-bubble.show').forEach(openBubble => {
         if (openBubble !== bubble) {
             openBubble.classList.remove('show');
         }
     });
 
-    // 4. Toggle the visibility of the clicked bubble.
+    // 4. Toggle visibility on the clicked bubble
     bubble.classList.toggle('show');
 }

@@ -60,19 +60,21 @@ input[type="checkbox"] {
     margin: 1em auto;
     width: 90%;
     max-width: 450px;
+    position: relative; /* REQUIRED for the absolute formula bubble to anchor correctly */
 }
 
 .calc-title {
     font-family: 'Inter', sans-serif;
     font-size: 1.35em;
     font-weight: 500;
-    letter-spacing: -0.02em;  /* Tighter tracking for modern headers */
+    letter-spacing: -0.02em;
     color: #1e293b;
-    text-align: center;
-    margin-bottom: 0.5em;
-    border-bottom: 2px solid rgba(0, 0, 0, 0.06);
-    padding-bottom: 0.4em;
+    text-align: left; /* Changed from center so it pairs nicely with the right-aligned button */
+    margin-bottom: 0;
+    border-bottom: none; /* Moved border line to title-wrapper below */
+    padding-bottom: 0;
     word-wrap: break-word;
+    flex: 1; /* Lets title take remaining space without pushing button to new line */
 }
 
 .title {
@@ -87,12 +89,16 @@ input[type="checkbox"] {
 }
 
 /* Container for the Title and the Help Button (Crucial for positioning) */
-.title-wrapper {
+.section.title-wrapper {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     position: relative; /* Anchor for the absolute bubble */
     margin-bottom: 1em;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.06);
+    padding-bottom: 0.4em;
+    width: 100%;
 }
 
 .title-wrapper .calc-title {
@@ -148,28 +154,31 @@ input[type="checkbox"] {
 /* 3. The Formula Bubble/Modal (Initially Hidden) */
 .formula-bubble {
     position: absolute;
-    top: 105%; /* Positioned directly below the title-wrapper */
-    right: 0;
-    width: 90%; /* Bubble fills 90% of card width */
-    max-width: 320px;
+    top: 3.5rem; /* Positions it right under the title header */
+    right: 1.5rem;
+    left: 1.5rem;
+    z-index: 100; /* Floats above input fields */
     
-    /* Styling from your request and the image */
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     padding: 1.25rem;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
     
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-    z-index: 100; /* Ensure it stays above other card content */
-    
-    /* Hide by default using visibility for smooth transition */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-5px) scale(0.98);
     transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-    pointer-events: none; /* Can't click through when hidden */
+    pointer-events: none;
+}
+
+.formula-bubble.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
 }
 
 /* 4. Class to show the bubble */
