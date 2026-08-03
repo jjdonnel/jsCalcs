@@ -9,7 +9,7 @@ function displayHome() {
     
     main.innerHTML =
         `<div id="home" class="home">
-          <p class="title">Conversions</p>
+          <p class="title">RhodyCalcs</p>
         </div>`
 
     function show() {

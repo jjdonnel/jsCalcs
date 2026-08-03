@@ -61,3 +61,28 @@ if (window.visualViewport) {
         window.scrollTo(0, 0); 
     });
 }
+
+/**
+ * Toggles the visibility of the formula bubble within a component.
+ * @param {HTMLElement} button - The help button element that was clicked.
+ */
+function toggleFormula(button) {
+    // 1. Find the relevant wrapper container starting from the button.
+    const titleWrapper = button.closest('.title-wrapper');
+    if (!titleWrapper) return;
+    
+    // 2. Locate the unique bubble inside that container.
+    const bubble = titleWrapper.querySelector('.formula-bubble');
+    if (!bubble) return;
+
+    // 3. Close ANY other open formula bubbles first.
+    // This maintains the clean UI, allowing only one info panel open at a time.
+    document.querySelectorAll('.formula-bubble.show').forEach(openBubble => {
+        if (openBubble !== bubble) {
+            openBubble.classList.remove('show');
+        }
+    });
+
+    // 4. Toggle the visibility of the clicked bubble.
+    bubble.classList.toggle('show');
+}

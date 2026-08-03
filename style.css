@@ -86,6 +86,126 @@ input[type="checkbox"] {
     margin: 1rem 0;
 }
 
+/* Container for the Title and the Help Button (Crucial for positioning) */
+.title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative; /* Anchor for the absolute bubble */
+    margin-bottom: 1em;
+}
+
+.title-wrapper .calc-title {
+    margin-bottom: 0;
+}
+
+/* 1. The Frosted Glass Help Button */
+.help-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    
+    /* Frosted Glass Style */
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    
+    color: #1a2536; /* Dark slate question mark */
+    font-weight: bold;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, background 0.2s ease;
+    
+    /* Start the pulse animation */
+    animation: helpPulse 1.8s infinite;
+}
+
+.help-btn:hover {
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* 2. Pulsing Animation Code */
+@keyframes helpPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(2, 132, 199, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(2, 132, 199, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(2, 132, 199, 0);
+    }
+}
+
+/* 3. The Formula Bubble/Modal (Initially Hidden) */
+.formula-bubble {
+    position: absolute;
+    top: 105%; /* Positioned directly below the title-wrapper */
+    right: 0;
+    width: 90%; /* Bubble fills 90% of card width */
+    max-width: 320px;
+    
+    /* Styling from your request and the image */
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    z-index: 100; /* Ensure it stays above other card content */
+    
+    /* Hide by default using visibility for smooth transition */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-5px) scale(0.98);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    pointer-events: none; /* Can't click through when hidden */
+}
+
+/* 4. Class to show the bubble */
+.formula-bubble.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    pointer-events: auto; /* Can click when visible */
+}
+
+/* Interior styles for the bubble content */
+.formula-bubble h4 {
+    color: #0f172a;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+.formula-bubble p {
+    color: #334155;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 0.8rem;
+}
+
+.formula-bubble code {
+    display: block;
+    background: #f1f5f9;
+    padding: 0.5rem;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #0284c7;
+    margin-bottom: 0.2rem;
+}
+
 /* Form Groups & Inputs */
 .section div {
     display: flex;

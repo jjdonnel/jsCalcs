@@ -33,22 +33,27 @@
                     <li class="items" onclick="displayTemperature()">Temp</li>
                     <li class="items" onclick="displayPressure()">Pressure</li>
                     <li class="items" onclick="displayCloudBase()">CloudBase</li>
+                    <li class="items" onclick="displayWindWeather()">Wind & Weather</li> <!-- New Weather Option -->
+                    <li class="items" onclick="displaySpeed()">Speed</li>
+                    <li class="items" onclick="displayVolume()">Volume</li>
+
                 </ul>
             </li>
             <li id="finance">
                 <input type="checkbox" class="menuInput" id="B" />
-                <label for="B" class="label">Finance</label>
+                <label for="B" class="label">Finance & Math</label>
                 <span class="arrow">&#9662;</span>
                 <ul id="finSub" class="subMenu">
                     <li class="items" onclick="displayFutureValue()">FutureValue</li>
                     <li class="items" onclick="displayCompoundInterest()">CompInt</li>
                     <li class="items" onclick="displayMortgage()">Mortgage</li>
+                    <li class="items" onclick="displayWorkout()">Workout Calories</li> <!-- New Workout Option -->
                 </ul>
             </li>
 
         </ul>
     </nav>
-    
+
     <!-- </nav> -->
 
     <main id="main" class="container"></main>
@@ -61,6 +66,10 @@
     <script src="./components/cloudBase.js"></script>
     <script src="./components/home.js"></script>
     <script src="./components/mortgage.js"></script>
+    <script src="./components/speed.js"></script>
+    <script src="./components/volume.js"></script>
+    <script src="./components/windWeather.js"></script>
+    <script src="./components/workout.js"></script>
 
 </body>
 
